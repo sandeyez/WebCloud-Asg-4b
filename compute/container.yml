@@ -1,0 +1,22 @@
+# Container.yml for the compute package
+name: compute
+version: 1.0.0
+kind: ecu
+
+dependencies:
+  - python3
+
+files:
+  - main.py
+
+entrypoint:
+  kind: task
+  exec: main.py
+
+actions:
+  'compute':
+    command:
+    input:
+    output:
+    - name: output
+      type: IntermediateResult
