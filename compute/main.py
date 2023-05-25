@@ -2,6 +2,8 @@
 
 # CODE USED AS STARTING POINT: https://www.kaggle.com/code/gusthema/house-prices-prediction-using-tfdf/notebook
 
+import os
+import json
 import tensorflow as tf
 import tensorflow_decision_forests as tfdf
 import pandas as pd
@@ -10,12 +12,13 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 
-DATASET_PATH = 'data.csv'
+# DATASET_PATH = 'data.csv'
 VARIABLE_IMPORTANCE_METRIC = 'NUM_AS_ROOT'
 
+input_file_path = f"{json.loads(os.environ['HOUSING'])}/data.csv"
 
 # We import the training- and testing-dataset from the specified paths.
-data = pd.read_csv(DATASET_PATH)
+data = pd.read_csv(input_file_path)
 # We drop the 'Id' column because it is not a feature.
 df = data.drop(['Id'], axis=1)
 
@@ -46,6 +49,12 @@ random_forests.fit(x=train_ds)
 
 
 random_forests.compile(metrics=["mse"])
+
+inspector = random_forests.make_inspector()
+importances = inspector.variable_importances()['INV_MEAN_MIN_DEPTH']
+for l in importances:
+    print(importances[l])
+# print(importances)
 # evaluation = random_forests.evaluate(test_ds, return_dict=True)
 
 train_predictions = random_forests.predict(x=train_ds).flatten()
@@ -67,7 +76,7 @@ test_merged = list(zip(test_predictions, test_actual_prices))
 # for name, value in evaluation.items():
 #   print(f"{name}: {value:.4f}")
 
-
+# with open(f"output.txt", 'w') as output_file:
 with open(f"/result/output.txt", 'w') as output_file:
     for pred, actual in train_merged:
         output_file.write("{} {}\n".format(pred, actual))
