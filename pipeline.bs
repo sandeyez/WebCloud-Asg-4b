@@ -2,8 +2,13 @@ import compute;
 import visualization;
 
 on "worker150" {
-    let compute_result := compute();
-    println(visualize(compute_result));
+    let housing_data := new Data{ name := "housing"};
+    let compute_result := compute(housing_data);
+    // let train_result, test_result := compute();
+    // println(compute_result);
+    let visualize_result := visualize(compute_result);
+    return commit_result("visualize_result", visualize_result);
+    // println(visualize(compute_result));
 }
 
 // println(visualize(compute()));
