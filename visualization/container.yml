@@ -22,4 +22,11 @@ actions:
       type: IntermediateResult
     output:
     - name: output
-      type: string
+      type: [string]
+    # - name: train
+    #   type: IntermediateResult
+    # - name: test
+    #   type: IntermediateResult
+    # output:
+    # - name: output
+    #   type: string

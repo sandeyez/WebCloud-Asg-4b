@@ -20,3 +20,7 @@ actions:
     output:
     - name: output
       type: IntermediateResult
+    # - name: train
+    #   type: IntermediateResult
+    # - name: test
+    #   type: IntermediateResult
