@@ -1,6 +1,6 @@
 # Container.yml for the compute package
 name: compute
-version: 1.0.0
+version: 1.0.1
 kind: ecu
 
 dependencies:

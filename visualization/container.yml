@@ -1,6 +1,6 @@
 # Container.yml for the visualization package
 name: visualization
-version: 1.0.0
+version: 1.0.1
 kind: ecu
 
 dependencies:
@@ -22,7 +22,7 @@ actions:
       type: IntermediateResult
     output:
     - name: output
-      type: [string]
+      type: string
     # - name: train
     #   type: IntermediateResult
     # - name: test
