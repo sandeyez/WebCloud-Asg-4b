@@ -1,0 +1,4 @@
+name: housing
+access:
+  kind: file
+  path: ./data.csv
