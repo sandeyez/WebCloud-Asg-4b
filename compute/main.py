@@ -7,15 +7,19 @@ import json
 import tensorflow as tf
 import tensorflow_decision_forests as tfdf
 import pandas as pd
-import seaborn as sns
-import matplotlib.pyplot as plt
+# import seaborn as sns
+# import matplotlib.pyplot as plt
 import numpy as np
 
 
 # DATASET_PATH = 'data.csv'
 VARIABLE_IMPORTANCE_METRIC = 'NUM_AS_ROOT'
 
-input_file_path = f"{json.loads(os.environ['HOUSING'])}/data.csv"
+# Get the input file path from the environment variable
+print(os.environ, file=os.sys.stderr)
+
+input_file_path = f"{json.loads(os.environ['HOUSING'])}"
+# input_file_path = 'data.csv'
 
 # We import the training- and testing-dataset from the specified paths.
 data = pd.read_csv(input_file_path)
@@ -41,7 +45,7 @@ test_ds = tfdf.keras.pd_dataframe_to_tf_dataset(test_df, label=label, task=tfdf.
 
 
 # Create a random forest model.
-random_forests = tfdf.keras.RandomForestModel(task=tfdf.keras.Task.REGRESSION)
+random_forests = tfdf.keras.RandomForestModel(task=tfdf.keras.Task.REGRESSION, compute_oob_variable_importances=True)
 
 
 # Train the model.
@@ -51,11 +55,23 @@ random_forests.fit(x=train_ds)
 random_forests.compile(metrics=["mse"])
 
 inspector = random_forests.make_inspector()
-importances = inspector.variable_importances()['INV_MEAN_MIN_DEPTH']
-for l in importances:
-    print(importances[l])
+
+
+for importance in inspector.variable_importances().keys():
+  print("\t", importance)
+# for l in importances:
+#     print(importances[l])
 # print(importances)
 # evaluation = random_forests.evaluate(test_ds, return_dict=True)
+
+importances = inspector.variable_importances()['INV_MEAN_MIN_DEPTH']
+
+feature_names = [vi[0].name for vi in importances]
+feature_importances = [vi[1] for vi in importances]
+
+print(feature_names)
+print(feature_importances)
+
 
 train_predictions = random_forests.predict(x=train_ds).flatten()
 print(train_predictions)
@@ -68,6 +84,9 @@ test_actual_prices = np.array(test_df['SalePrice'])
 
 train_merged = list(zip(train_predictions, train_actual_prices))
 test_merged = list(zip(test_predictions, test_actual_prices))
+
+features_merged = list(zip(feature_names, feature_importances))
+
 
 # print(train_merged)
 # print(test_merged)
@@ -83,6 +102,13 @@ with open(f"/result/output.txt", 'w') as output_file:
     output_file.write("\n")
     for pred, actual in test_merged:
         output_file.write("{} {}\n".format(pred, actual))
+
+
+# with open(f"features.txt", 'w') as output_file:
+with open(f"/result/features.txt", 'w') as output_file:
+    for name, importance in features_merged:
+        output_file.write("{} {}\n".format(name, importance))
+
 
 # with open(f"/result/test.txt", 'w') as output_file:
 #     for pred, actual in test_merged:
