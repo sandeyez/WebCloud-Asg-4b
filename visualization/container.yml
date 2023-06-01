@@ -1,6 +1,6 @@
 # Container.yml for the visualization package
 name: visualization
-version: 1.0.5
+version: 1.0.7
 kind: ecu
 
 dependencies:

@@ -6,7 +6,7 @@ from matplotlib import pyplot as plt
 import numpy as np
 
 # Get the input file path from the environment variable
-print(os.environ, file=os.sys.stderr)
+# print(os.environ, file=os.sys.stderr)
 
 
 importances_file_path = f"{json.loads(os.environ['INPUT'])}/features.txt"
@@ -33,7 +33,7 @@ with open(input_file_path, 'r') as input_file:
 
 
 idx = all_data.index([])
-print(idx)
+# print(idx)
 
 train_data = all_data[:idx]
 test_data = all_data[idx + 1:]
@@ -44,7 +44,7 @@ feature_names = [vi[0] for vi in importances_data]
 feature_importances = [float(vi[1]) for vi in importances_data]
 feature_ranks = range(len(feature_names))
 
-print(feature_names, feature_importances)
+# print(feature_names, feature_importances)
 
 complete_differences = np.clip([float(x[1]) - float(x[0]) for x in all_data], -100000, 100000)
 train_differences = np.clip([float(x[1]) - float(x[0]) for x in train_data], -100000, 100000)
@@ -64,7 +64,7 @@ test_differences = np.clip([float(x[1]) - float(x[0]) for x in test_data], -1000
 # plt.tight_layout()
 # plt.show()
 
-print('We come here!')
+# print('We come here!')
 
 plt.bar(feature_ranks, feature_importances, tick_label=feature_names)
 plt.title("Importance of all features")
@@ -72,7 +72,7 @@ plt.xlabel('Feature name')
 plt.ylabel('Importance')
 plt.xticks(rotation='vertical')
 # plt.show()
-plt.savefig('/results/importances.png')
+plt.savefig('/result/importances.png')
 
 
 

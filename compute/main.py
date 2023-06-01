@@ -10,13 +10,17 @@ import pandas as pd
 # import seaborn as sns
 # import matplotlib.pyplot as plt
 import numpy as np
+import sys
+
+# Redirect all stdout to stderr
+sys.stdout = sys.stderr
 
 
 # DATASET_PATH = 'data.csv'
 VARIABLE_IMPORTANCE_METRIC = 'NUM_AS_ROOT'
 
 # Get the input file path from the environment variable
-print(os.environ, file=os.sys.stderr)
+# print(os.environ, file=os.sys.stderr)
 
 input_file_path = f"{json.loads(os.environ['HOUSING'])}"
 # input_file_path = 'data.csv'
@@ -31,8 +35,8 @@ df = data.drop(['Id'], axis=1)
 # 80% of the data is used for training and the remaining 20% for testing.
 train_df = df.sample(frac=0.8, random_state=0)
 test_df = df.drop(train_df.index)
-print(f"Training set size: {len(train_df)}")
-print(f"Testing set size: {len(test_df)}")
+# print(f"Training set size: {len(train_df)}")
+# print(f"Testing set size: {len(test_df)}")
 
 
 # Convert the pandas dataframe to a tensorflow dataset.
@@ -57,8 +61,8 @@ random_forests.compile(metrics=["mse"])
 inspector = random_forests.make_inspector()
 
 
-for importance in inspector.variable_importances().keys():
-  print("\t", importance)
+# for importance in inspector.variable_importances().keys():
+#   print("\t", importance)
 # for l in importances:
 #     print(importances[l])
 # print(importances)
@@ -69,13 +73,13 @@ importances = inspector.variable_importances()['INV_MEAN_MIN_DEPTH']
 feature_names = [vi[0].name for vi in importances]
 feature_importances = [vi[1] for vi in importances]
 
-print(feature_names)
-print(feature_importances)
+# print(feature_names)
+# print(feature_importances)
 
 
 train_predictions = random_forests.predict(x=train_ds).flatten()
-print(train_predictions)
-print(train_predictions[0])
+# print(train_predictions)
+# print(train_predictions[0])
 test_predictions = random_forests.predict(x=test_ds).flatten()
 # complete_predictions = random_forests.predict(x=complete_ds)[0]
 
