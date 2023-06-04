@@ -1,4 +1,4 @@
-# COLLABARATORS
+# COLLABORATORS
 - Max de Boer
 - Jeroen Tas
 - Sander van Werkhooven
